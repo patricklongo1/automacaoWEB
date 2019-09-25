@@ -23,7 +23,7 @@ public class WebAutomationTest {
 	@Before
 	public void inicializa() {
 		driver = DriverFactory.getDriver();
-		 DSL dslInstanciado = new DSL(driver);
+		 DSL dslInstanciado = new DSL(driver);		// Inicializa navegador maximizado
 		 dsl = dslInstanciado;
 	}
 
@@ -214,10 +214,12 @@ public class WebAutomationTest {
 			Thread.sleep(1000);
 		}
 		Assert.assertNotEquals("Este formato de número de telefone não é válido. Verifique o país e o número."
-				, dsl.valorDoCampoCss("#view_container > form > div.mbekbe.bxPAYd > div > div.lqByzd.OcVpRe > div.qqYQWe.G2JKS > div.rFrNMe.RSJo4e.uIZQNc.og3oZc."
-						+ "zKHdkd.sdJrJc.Tyc9J.CDELXb.k0tWj.IYewr > div.LXRPh > div.dEOOab.RxsGPe"));// Assert checkar erro campo Telefone
+				, dsl.valorDoCampoCss("#view_container > form > div.mbekbe.bxPAYd > div > div.lqByzd.OcVpRe > "
+						+ "div.qqYQWe.G2JKS > div.rFrNMe.RSJo4e.uIZQNc.og3oZc."   // Assert checkar erro campo Telefone (Falha induzida)
+						+ "zKHdkd.sdJrJc.Tyc9J.CDELXb.k0tWj.IYewr > div.LXRPh > div.dEOOab.RxsGPe"));
 	}
 	
+	// Metodo para injetar dados no objeto usuário.
 	public static void salvarDadosUsuario() {
 		try {
 			BeanUsuario user = new BeanUsuario();
@@ -233,25 +235,27 @@ public class WebAutomationTest {
 							.cssSelector("#details > div.content > div.info > div > div.extra > dl:nth-child(5) > dd"))
 					.getText());
 			usuarioSalvo = user;
-			//acessarGmail();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("ERROR: Verificar elementos da página!");
 		}
 	}
 	
+	// Metodo para remover caracteres especiais dos nomes para formatar usuário/senha
 	public static String deAccent(String str) {
 		String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
 		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 		return pattern.matcher(nfdNormalizedString).replaceAll("");
 	}
 	
+	// Metodo para controlar nova aba no browser
 	public static void controlarNovaAba(WebDriver driver, String oldTab) {
 		for (String winHandle : driver.getWindowHandles()) {
 			driver.switchTo().window(winHandle);
 		}
 	}
 	
+	// Metodo para verificar se elemento existe na página
 	private static boolean elementoExiste(String cssSelector, WebDriver driver) throws Exception {
 		boolean elemento = driver.findElement(By.cssSelector(cssSelector)).isDisplayed();
 		return elemento;

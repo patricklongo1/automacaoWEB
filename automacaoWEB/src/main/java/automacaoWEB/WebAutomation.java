@@ -127,18 +127,21 @@ public class WebAutomation {
 		}
 	}
 
+	// Metodo para remover caracteres especiais dos nomes para formatar usuário/senha
 	public static String deAccent(String str) {
 		String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
 		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 		return pattern.matcher(nfdNormalizedString).replaceAll("");
 	}
-
+	
+	// Metodo para controlar nova aba no browser
 	public static void controlarNovaAba(WebDriver driver, String oldTab) {
 		for (String winHandle : driver.getWindowHandles()) {
 			driver.switchTo().window(winHandle);
 		}
 	}
 
+	// Metodo para verificar se elemento existe na página
 	private static boolean elementoExiste(String cssSelector, WebDriver driver) throws Exception {
 		boolean elemento = driver.findElement(By.cssSelector(cssSelector)).isDisplayed();
 		return elemento;

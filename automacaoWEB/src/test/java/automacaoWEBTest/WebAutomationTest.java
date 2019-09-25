@@ -29,7 +29,7 @@ public class WebAutomationTest {
 
 	@After
 	public void finaliza() {
-		DriverFactory.killDriver();
+		DriverFactory.killDriver();               // Mata instancia do navegador
 	}
 	
 	@Test
